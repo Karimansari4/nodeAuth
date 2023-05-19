@@ -124,16 +124,14 @@ exports.resetPassword = async(req, res) => {
                 return res.status(400).json({msg: 'Please enter password?', success: false})
             }if(!newPass){
                 return res.status(400).json({msg: 'Please enter old password?', success: false})
-            }else if(password.length < 5){
+            }else if(newPass.length < 5){
                 return res.status(400).json({msg: 'Password should be more than 5 words?', success: false})
             }else{
-
                 const matchedPass = await bcrypt.compare(oldPass, findUser.password)
                 
                 if(matchedPass){
                     const hashedPass = await bcrypt.hash(newPass, parseInt(salt))
                     const result = await User.findByIdAndUpdate({_id: id}, {password: hashedPass})
-                    
                     if(result){
                         return res.status(200).json({msg: 'Password reset successfully.', success: true})
                     }else{
