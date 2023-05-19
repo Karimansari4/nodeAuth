@@ -120,9 +120,9 @@ exports.resetPassword = async(req, res) => {
         const findUser = await User.findById(id)
         
         if(findUser){
-            if(!password){
+            if(!oldPass){
                 return res.status(400).json({msg: 'Please enter password?', success: false})
-            }if(!oldPass){
+            }if(!newPass){
                 return res.status(400).json({msg: 'Please enter old password?', success: false})
             }else if(password.length < 5){
                 return res.status(400).json({msg: 'Password should be more than 5 words?', success: false})
